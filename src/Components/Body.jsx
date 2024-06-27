@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 const api = {
   key: "b8b30d722c0eb1067bb00613443705f0",
   base: "https://api.openweathermap.org/data/2.5/",
@@ -48,6 +50,8 @@ export const Body = () => {
       });
   }
   return (
+    <div className="bg-amber-50 min-h-screen py-3 flex flex-col gap-16 md:py-10 px-10 justify-between ">
+         <Header />
     <div className="lg:flex lg:justify-around lg:flex-row-reverse lg:mt-20 ">
       <div className="lg:mr-20 font-ashank ">
         {typeof weather.main != "undefined" ? (
@@ -110,6 +114,8 @@ export const Body = () => {
           </div>
         </div>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };

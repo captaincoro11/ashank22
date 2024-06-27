@@ -1,23 +1,32 @@
-import { Body } from "./Components/Body"
-import { Footer } from "./Components/Footer"
-import { Header } from "./Components/Header"
-import "./index.css"
+import { Body } from "./Components/Body";
+import { Footer } from "./Components/Footer";
+import { Header } from "./Components/Header";
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
+import "./index.css";
+import Login from "./Components/Login";
+import Signin from "./Components/Signin";
 
 function App() {
-
-
   return (
-    <>
-    <div className="bg-amber-50 min-h-screen px-10 py-3 flex flex-col gap-16 md:py-10 px-10 justify-between lg:">
-      <Header/>
-      <Body/>
-      <div></div>
-      <Footer/>
-    </div> 
+
+
+     
+   
+        <Router>
+        <Routes>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/weather" element={<Body/>}/>
+        <Route path="/signin" element={<Signin/>}/>
+        
+        
+   
+        </Routes>
+
+        </Router>
     
-    </>
-    
-  )
+  );
 }
 
-export default App
+export default App;
+
+

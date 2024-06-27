@@ -1,42 +1,36 @@
-const user = require('../models/user');
+const user = require('../model/user');
+const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 exports.register = async (req, res) => {
     try {
-      const { name, email, password, avatar } = req.body;
+      const { name, email, password } = req.body;
      
       let User = await user.findOne({ email });
       if (User) {
         return res
           .status(400)
           .json({ success: false, message: "User already exists" });
-      }
+      };
 
-     
-  
-      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-        folder: "avatars",
-      });
-  
+      const hashedPassword = await bcrypt.hash(password,10);
 
-      User = await user.create({
+       User = await user.create({
         name,
         email,
-        password,
-        avatar: { public_id: myCloud.public_id, url: myCloud.secure_url },
+        password:hashedPassword
       });
   
-      const token = await User.generateToken();
+      const token = await jwt.sign({email},process.env.JWT_SECRET,{expiresIn:"1d"})
+     
   
-      const options = {
-        expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-        httpOnly: false,
-          secure:true,
-          sameSite:'none'
-      };
-  
-      res.status(201).cookie("token", token, options).json({
+      res.status(201).json({
         success: true,
+        message:"User Registerd Successfully",
         User,
         token,
       });
@@ -109,4 +103,9 @@ exports.logout = async (req,res)=>{
         })
         
     }
+}
+
+exports.loadUser = async(req,res)=>{
+
+    
 }
